@@ -30,6 +30,9 @@ User can delete a comment on a post
 
 
 ## Built With
+* Express.js
+* Node.js
+* Sequelize
 * 
 
 ## Website
