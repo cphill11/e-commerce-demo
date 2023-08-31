@@ -1,6 +1,5 @@
 const { Model, DataTypes } = require('sequelize');
-
-// should this be ('../config/connection.js') (?)
+const bcrypt = require('bcrypt');
 const sequelize = require('../config/connection');
 
 // create User model so that it inherits Model class functionality
@@ -53,21 +52,31 @@ User.init(
         }
     },
     {
+        // hooks are added to 2nd object for User.init
+        hooks: {
+            // set up beforeCreate() lifecycle "hook" functionality", passing in userData object that contains plaintext password
+            // also pass in saltRoute value of 10
+            async beforeCreate(userData) {
+                newUserData.password = await bcrypt.hash(newUserData.password, 10);
+                    return newUserData;
+                },
+            
+            // set up beforeUpdate() lifecycle "hook" functionality
+            async beforeUpdate(updatedUserData) {
+                updatedUserData.password = await bcrypt.hash(updatedUserData.password, 10);
+                return updatedUserData;
+            }
+        },
         
-        // table config options will go here
-
+        // table config options start
         // pass in imported sequelize connection / direct connection to db
         sequelize,
-
         // stop automatic creation of createdAt/ updatedAt timestamp fields
         timestamps: false,
-
         // don't pluralize name of db table
         freezeTableName: true,
-
         // use underscores (not camelcase)
         underscored: true,
-
         // change model name to lowercase in db
         modelName: 'user'
     }
