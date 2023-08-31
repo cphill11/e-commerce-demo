@@ -6,6 +6,7 @@ const apiRoutes = require('./api');
 
 router.use('/api', apiRoutes);
 
+// produces an error if request an endpoint that doesn't exit (incorrect resources)
 router.use((req, res) => {
     res.status(404).end();
 });
