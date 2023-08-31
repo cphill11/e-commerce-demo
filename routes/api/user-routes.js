@@ -37,6 +37,7 @@ router.get('/:id', (req, res)=> {
     });
 });
 
+// http://localhost:3001/api/users
 // POST / api / users
 router.post('/', (req, res)=> {
     // expects {username: '', email: '', password: ''}
@@ -50,6 +51,32 @@ router.post('/', (req, res)=> {
     .catch(err => {
         console.log(err);
         res.status(500).json(err);
+    });
+});
+
+// This route will be found at http://localhost:3001/api/users/login in the browser.
+router.post('/login', (req, res) => {
+    // expects {username: '', email: '', password: ''}
+    // query 1 user's email
+    User.findOne({
+        where: {
+            // assigned 1 user's email to req.body.email
+            email: req.body.email
+        }
+    }).then(dbUserData => {
+        if (!dbUserData) {
+            res.status(400).json({ message: 'No user with this email address' });
+            return;
+        }
+        res.json({ user: dbUserData });
+        
+        //verify user
+        const validPassword = dbUserData.checkPassword(req.body.password);
+        if (!validPassword) {
+            res.status(400).json({ message: 'Incorrect password.' });
+            return;
+        }
+        res.json({ user: dbUserData, message: 'You are now logged in.' });
     });
 });
 
