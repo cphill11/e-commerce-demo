@@ -1,7 +1,7 @@
 const router = require('express').Router();
 const { Post, User } = require('../../models');
 
-// get all users
+// get all posts
 router.get('/', (req, res) => {
     console.log('=============');
 
@@ -22,4 +22,5 @@ router.get('/', (req, res) => {
     });
 });
 
+// get u
 module.exports = router;
