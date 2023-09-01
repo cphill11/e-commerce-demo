@@ -56,7 +56,7 @@ User.init(
         hooks: {
             // set up beforeCreate() lifecycle "hook" functionality", passing in userData object that contains plaintext password
             // also pass in saltRoute value of 10
-            async beforeCreate(userData) {
+            async beforeCreate(newUserData) {
                 newUserData.password = await bcrypt.hash(newUserData.password, 10);
                     return newUserData;
                 },

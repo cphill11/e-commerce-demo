@@ -2,7 +2,7 @@
 const router = require('express').Router();
 const { User } = require('../../models');
 
-// GET / api / users
+// GET / api / users (get all)
 router.get('/', (req, res)=> {
     // Access User model & run .findAll() method
     User.findAll({
@@ -16,7 +16,7 @@ router.get('/', (req, res)=> {
     });
 });
 
-// GET / api / users /1
+// GET / api / users /1    (find specific)
 router.get('/:id', (req, res)=> {
     User.findOne({
         attributes: { exclude: ['password'] },
@@ -37,7 +37,6 @@ router.get('/:id', (req, res)=> {
     });
 });
 
-// http://localhost:3001/api/users
 // POST / api / users
 router.post('/', (req, res)=> {
     // expects {username: '', email: '', password: ''}
