@@ -65,6 +65,17 @@ router.post('/', (req, res) => {
     });
 });
 
+// update existing post with an upvote; // PUT / api/posts/upvote
+// must go before update by id to prevent Express considering 'upvote' as a valid param for /:id
+router.put('/upvote', (req, res) => {
+    Vote.create({
+        user_id: req.body.user_id,
+        post_id: req.body.post_id
+    })
+    .then(dbPostData => res.json(dbPostData))
+    .catch(err => res.json(err));
+});
+
 // update an existing post
 router.put('/:id', (req, res) => {
     Post.update(
@@ -89,6 +100,7 @@ router.put('/:id', (req, res) => {
         res.status(500).json(err);
     });
 });
+
 
 // remove a post
 router.delete('/:id', (req, res) => {
