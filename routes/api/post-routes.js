@@ -1,5 +1,7 @@
 const router = require('express').Router();
-const { Post, User } = require('../../models');
+const sequelize = require('../../config/connection');
+const { Post, User, Vote } = require('../../models');
+
 
 // get all posts
 router.get('/', (req, res) => {
@@ -68,12 +70,33 @@ router.post('/', (req, res) => {
 // update existing post with an upvote; // PUT / api/posts/upvote
 // must go before update by id to prevent Express considering 'upvote' as a valid param for /:id
 router.put('/upvote', (req, res) => {
-    Post.create({
+    Vote.create({
         user_id: req.body.user_id,
         post_id: req.body.post_id
-    })
-    .then(dbPostData => res.json(dbPostData))
-    .catch(err => res.json(err));
+    }).then(() => {
+        // then find the post we just voted on
+        return Post.findOne({
+            where: {
+                id: req.body.post_id
+            },
+            attributes: [
+                'id',
+                'post_url',
+                'title',
+                'created_at',
+                // use raw MySQL aggregate fxn to get a count of how many votes that the post has & return it under the name 'vote_count'
+                [
+                    sequelize.literal('(SELECT COUNT(*) FROM vote WHERE post.id = vote.post_id)'),
+                    'vote_count'
+                ]
+            ]
+        })
+        .then(dbPostData => res.json(dbPostData))
+        .catch(err => {
+            console.log(err)
+            res.status(400).json(err);
+        });
+    });
 });
 
 // update an existing post
