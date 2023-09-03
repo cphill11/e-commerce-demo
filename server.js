@@ -1,5 +1,5 @@
 const express = require('express');
-const routes = require('./routes');
+const routes = require('./controllers');
 const sequelize = require('./config/connection');
 
 const app = express();
@@ -8,7 +8,7 @@ const PORT = process.env.PORT || 3001;
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// turn on routes
+// turn on routes (controllers)
 app.use(routes);
 
 // turn on connection to db & server; configuration param = force: false; 
