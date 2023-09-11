@@ -35,6 +35,7 @@ User can delete a comment on a post
 * Sequelize
 * Bcrypt
 * MySql2
+* Handlebars
 
 ## Website
 https://github.com/cphill11/e-commerce-demo.git
