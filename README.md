@@ -33,7 +33,8 @@ User can delete a comment on a post
 * Express.js
 * Node.js
 * Sequelize
-* 
+* Bcrypt
+* MySql2
 
 ## Website
 https://github.com/cphill11/e-commerce-demo.git
