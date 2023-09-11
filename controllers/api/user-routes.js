@@ -38,7 +38,7 @@ router.get('/:id', (req, res)=> {
     })
     .then(dbUserData => {
         if (!dbUserData) {
-            res.status(404).json({message: 'No user has been found with this id'});
+            res.status(404).json({message: 'No user has been found with this id, hoser'});
             return;
         }
         res.json(dbUserData);
@@ -65,10 +65,9 @@ router.post('/', (req, res)=> {
     });
 });
 
-// This route will be found at http://localhost:3001/api/users/login in the browser.
+// use POST not GET (carry request param in body)
 router.post('/login', (req, res) => {
-    // expects {username: '', email: '', password: ''}
-    // query 1 user's email
+    // expects {email: '', password: ''}
     User.findOne({
         where: {
             // assigned 1 user's email to req.body.email
@@ -81,13 +80,13 @@ router.post('/login', (req, res) => {
         }
         res.json({ user: dbUserData });
         
-        //verify user
-        const validPassword = dbUserData.checkPassword(req.body.password);
-        if (!validPassword) {
-            res.status(400).json({ message: 'Incorrect password.' });
-            return;
-        }
-        res.json({ user: dbUserData, message: 'You are now logged in.' });
+        //verify user **** this throws an error***
+        // const validPassword = dbUserData.checkPassword(req.body.password);
+        // if (!validPassword) {
+        //     res.status(400).json({ message: 'Incorrect password.' });
+        //     return;
+        // }
+        // res.json({ user: dbUserData, message: 'You are now logged in.' });
     });
 });
 
