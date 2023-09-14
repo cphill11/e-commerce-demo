@@ -3,19 +3,6 @@ const sequelize = require("../config/connection");
 const { Post, User, Comment } = require("../models");
 
 router.get("/", (req, res) => {
-  // test info used to ensure template engine is hooked up
-  // res.render('homepage', {
-  //     id: 1,
-  //     post_url: 'https://handlebarsjs.com/guide/',
-  //     title: 'Handlebars Docs',
-  //     created_at: new Date(),
-  //     vote_count: 10,
-  //     comments: [{}, {}],
-  //     user: {
-  //         username: 'test_user'
-  //     }
-  // });
-
   Post.findAll({
     attributes: [
       "id",
@@ -53,6 +40,10 @@ router.get("/", (req, res) => {
       console.log(err);
       res.status(500).json(err);
     });
+});
+
+router.get('/login', (req, res) => {
+    res.render('login');
 });
 
 module.exports = router;
