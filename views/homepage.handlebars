@@ -1,2 +1,26 @@
-{{!-- All other templates for handlebars go in this file --}}
-<div> Welcome to the E Commerce Demo Homepage! </div>
+{{! All other templates for handlebars go in this file }}
+<div> Welcome to the homepage for E Commerce Demo! </div>
+<br />
+
+{{!-- </ol> is placeholder element for handlebar to plug in data later --}}
+<ol class="post-list">
+    {{!-- #each & /each repeats HTML code for every post now --}}
+    {{#each posts}}
+  <li>
+    <article class="post">
+      <div class="title">
+        {{!-- {{}} 2 curly brackets render as text --}}
+        {{!-- {{{}}} 3 render as link for html --}}
+        <a href="{{post_url}}" target="_blank">{{title}}</a>
+        <span>({{post_url}})</span>
+      </div>
+
+      <div class="meta">
+        {{vote_count}} point(s) by {{user.username}} on {{created_at}} 
+        |
+        <a href="/post/{{id}}">{{comments.length}} comment(s) </a>
+      </div>
+    </article>
+  </li>
+    {{/each}}
+</ol>
