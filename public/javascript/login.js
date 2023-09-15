@@ -45,7 +45,7 @@ async function loginFormHandler(event) {
       });
       // check response status
       if (response.ok) {
-          document.location.replace('/');
+          document.location.replace('../../views');
       } else {
           alert(response.statusText);
       }
