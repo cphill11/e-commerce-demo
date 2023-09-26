@@ -45,7 +45,8 @@ async function loginFormHandler(event) {
       });
       // check response status
       if (response.ok) {
-          document.location.replace('../../views');
+        // different routes tried ***
+          document.location.replace('/localhost/3001/views/loggedIn');
       } else {
           alert(response.statusText);
       }
