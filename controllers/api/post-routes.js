@@ -102,12 +102,16 @@ router.post("/", (req, res) => {
 // update existing post with an upvote; // PUT / api/posts/upvote
 // must go before update by id to prevent Express considering 'upvote' as a valid param for /:id
 router.put("/upvote", (req, res) => {
-  //custom static method created in models/Post.js
-  Post.upvote(req.body, { Vote })
-    .then((updatedPostData) => res.json(updatedPostData))
+  // 1st make sure session exists 
+  if (req.session) {
+  // pass session id along w/ all destructured properties on req.body, using saved user_id property to insert new record into vote table
+  Post.upvote({ ...req.body, user_id: req.session.user_id }, { Vote, Comment, User })
+    .then((updatedVoteData) => res.json(updatedVoteData))
     .catch((err) => {
-      res.status(400).json(err);
+      console.log(err);
+      res.status(500).json(err);
     });
+  }
 });
 
 // update an existing post
